@@ -49,11 +49,7 @@ class RedNeuronal:
         self.Zs = []
         self.As = []
         self.Ss = []  
-        for i in range(self.noCapas):
-            self.As.append(0)
-            if(i<self.noCapas-1):
-                self.Zs.append(0)
-                self.Ss.append(0)      
+             
 
     def randomModel(self,minimo,maximo):    
         for i in range(self.noCapas):
@@ -108,6 +104,11 @@ class RedNeuronal:
     
     def loadModel(self,path):
         self.reset()
+        for i in range(self.noCapas):
+            self.As.append(0)
+            if(i<self.noCapas-1):
+                self.Zs.append(0)
+                self.Ss.append(0)
         for i in range(self.noCapas):        
             if(i<self.noCapas-1):
                 self.Ws.append(np.matrix(np.load(path+"/W"+str(i)+".npy")))

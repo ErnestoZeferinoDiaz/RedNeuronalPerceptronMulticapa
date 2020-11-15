@@ -1,0 +1,6 @@
+datasets/dollar
+datasets/euro
+datasets/franc
+datasets/pound
+datasets/rupee
+datasets/yen

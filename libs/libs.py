@@ -104,13 +104,11 @@ class RedNeuronal:
     
     def loadModel(self,path):
         self.reset()
-        for i in range(self.noCapas):
-            self.As.append(0)
-            if(i<self.noCapas-1):
-                self.Zs.append(0)
-                self.Ss.append(0)
         for i in range(self.noCapas):        
+            self.As.append(0)
             if(i<self.noCapas-1):
                 self.Ws.append(np.matrix(np.load(path+"/W"+str(i)+".npy")))
                 self.Bs.append(np.matrix(np.load(path+"/B"+str(i)+".npy")))
+                self.Zs.append(0)
+                self.Ss.append(0)
                 

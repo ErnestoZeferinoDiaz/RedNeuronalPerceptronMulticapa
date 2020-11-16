@@ -1,18 +1,6 @@
 from libs.libs import *
 from libs.functions import *
 
-def preprocessingIMG(path_img):
-    img     = cv2.imread(path_img)
-    resized = get_square(img,200)
-    gray    = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
-    borde   = cv2.Canny(gray, 100, 200)
-    
-    cv2.imshow('image',borde)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    resp    = np.matrix(gray)
-    return resp.getA1()
-
 
 directory = open("paths.txt", "r").read().split("\n")
 

@@ -1,8 +1,9 @@
-from preprocessing import preprocessingIMG
+from libs.libs import *
+from libs.functions import *
 
 directory = open("paths.txt", "r").read().split("\n")
 
-path = "datasets/pound/pound100.jpg"
+path = "../train/20.jpg"
 x    = preprocessingIMG(path)
 
 print(x.size)

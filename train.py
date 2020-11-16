@@ -11,12 +11,12 @@ rows = X.shape[0]
 r = RedNeuronal(
    [X.shape[1],100,50,Y.shape[1]],
    [sigmoid,sigmoid,sigmoid],
-   0.1
+   0.01
 )
 
 r.reset()
-#r.randomModel(-1,1)
-r.loadModel("checkpoints")
+r.randomModel(-1,1)
+#r.loadModel("checkpoints")
 emedio=[]
 eI=1
 epocas=0

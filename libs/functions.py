@@ -3,6 +3,14 @@ import cv2
 import os
 from os.path import isfile, join
 
+def preprocessingIMG(path_img):
+    img     = cv2.imread(path_img)
+    resized = get_square(img,200)
+    mat     = imgRGBToInt(resized)
+    norm    = normalize(mat)    
+    resp    = np.matrix(norm)
+    return resp.getA1()
+
 def get_square(image,square_size):
   height,width,alt=image.shape
   if(height>width):

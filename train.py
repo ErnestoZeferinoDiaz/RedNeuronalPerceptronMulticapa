@@ -15,8 +15,8 @@ r = RedNeuronal(
 )
 
 r.reset()
-#r.randomModel(-1,1)
-r.loadModel("checkpoints")
+r.randomModel(-1,1)
+#r.loadModel("checkpoints")
 emedio=[]
 eI=1
 epocas=0

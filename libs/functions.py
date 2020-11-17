@@ -6,9 +6,8 @@ from os.path import isfile, join
 
 def preprocessingIMG(img):
     resized = get_square(img,200)
-    mat     = imgRGBToInt(resized)
-    norm    = normalize(mat)    
-    resp    = np.matrix(norm)
+    gray    = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)    
+    resp    = np.matrix(gray)
     return resp.getA1()
 
 def get_square(image,square_size):

@@ -7,7 +7,7 @@ from os.path import isfile, join
 def preprocessingIMG(img):
     resized = get_square(img,200)
     gray    = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)  
-    border  = cv.Canny(gray,100,200)  
+    border  = cv2.Canny(gray,100,200)  
     resp    = np.matrix(border)
     return resp.getA1()
 

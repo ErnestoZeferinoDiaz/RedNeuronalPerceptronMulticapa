@@ -1,10 +1,10 @@
 import numpy as np
 import cv2
 import os
+import urllib.request
 from os.path import isfile, join
 
-def preprocessingIMG(path_img):
-    img     = cv2.imread(path_img)
+def preprocessingIMG(img):
     resized = get_square(img,200)
     mat     = imgRGBToInt(resized)
     norm    = normalize(mat)    
@@ -45,3 +45,9 @@ def imgRGBToInt(img):
 
 def normalize(matrix):
   return matrix * (1/16777215)
+
+def url_to_image(url):
+	resp = urllib.request.urlopen(url)
+	image = np.asarray(bytearray(resp.read()), dtype="uint8")
+	image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+	return image

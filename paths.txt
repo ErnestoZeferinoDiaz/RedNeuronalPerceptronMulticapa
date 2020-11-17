@@ -1,6 +1,7 @@
-../train/20_pesos
-../train/50_pesos
-../train/100_pesos
-../train/200_pesos
-../train/500_pesos
-../train/1000_pesos
+/content/drive/MyDrive/train/001
+/content/drive/MyDrive/train/002
+/content/drive/MyDrive/train/003
+/content/drive/MyDrive/train/004
+/content/drive/MyDrive/train/005
+/content/drive/MyDrive/train/006
+/content/drive/MyDrive/train/007

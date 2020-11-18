@@ -20,7 +20,10 @@ r = RedNeuronal(
    0.01
 )
 
-r.loadModel("checkpoints")
-y=r.frontPropagation(x).round(0)
+r.loadModel("/content/drive/MyDrive/checkpoints")
+y=r.frontPropagation(x)
+m=y.max()
+i=np.where(y==m)
 
 print(y)
+print(directory[i[0][0]])

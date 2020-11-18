@@ -2,3 +2,4 @@
 **/*.npy
 **/checkpoints
 prueba.py
+data.csv

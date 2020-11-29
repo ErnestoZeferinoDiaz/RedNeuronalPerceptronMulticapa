@@ -1,7 +1,0 @@
-/content/drive/MyDrive/train/001
-/content/drive/MyDrive/train/002
-/content/drive/MyDrive/train/003
-/content/drive/MyDrive/train/004
-/content/drive/MyDrive/train/005
-/content/drive/MyDrive/train/006
-/content/drive/MyDrive/train/007

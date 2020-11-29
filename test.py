@@ -1,27 +1,38 @@
 from libs.libs import *
 from libs.functions import *
+import csv
 
-directory = open("paths.txt", "r").read().split("\n")
+directory = open("in_out_paths/pathsInputs.txt", "r").read().split("\n")
 
 #path = "../train/20.jpg"
 #img  = cv2.imread(path)
-url = "https://cnnespanol.cnn.com/wp-content/uploads/2020/07/200703104728-labrador-retriever-stock-super-169.jpg?quality=100&strip=info"
+url = "https://http2.mlstatic.com/D_NQ_NP_755149-MLM26805385609_022018-V.jpg"
 img  = url_to_image(url)
 
-x    = preprocessingIMG(img)
+X    = preprocessingIMG(img)
+X = np.matrix(X)
 
-print(x.size)
+pathSave= open("in_out_paths/pathSave.txt", "r").read().split("\n")[0]
+params=[]
+with open('in_out_paths/config.csv', mode='r') as filee:
+   text = csv.reader(filee, delimiter=',')
+   for row in text:
+      params.append(row)
 
-rows = x.shape[0]
+capas = [int(i) for i in params[0]]
+capas.insert(0,X.shape[1])
+capas.append(len(directory))
+
+functionesActivacion=params[1]
 
 r = RedNeuronal(
-   [x.size,100,50,len(directory)],
-   [sigmoid,sigmoid,sigmoid],
-   0.01
+   X,
+   capas,
+   functionesActivacion
 )
 
-r.loadModel("/content/drive/MyDrive/checkpoints")
-y=r.frontPropagation(x)
+r.loadModel(pathSave)
+y=r.frontPropagation()
 m=y.max()
 i=np.where(y==m)
 

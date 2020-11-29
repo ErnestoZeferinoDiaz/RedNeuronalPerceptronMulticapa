@@ -1,0 +1,6 @@
+../train/20_Pesos
+../train/50_Pesos
+../train/100_Pesos
+../train/200_Pesos
+../train/500_Pesos
+../train/1000_Pesos

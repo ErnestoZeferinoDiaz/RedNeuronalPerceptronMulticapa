@@ -2,14 +2,14 @@ from libs.libs import *
 from libs.functions import *
 
 
-directory = open("paths.txt", "r").read().split("\n")
+directory = open("in_out_paths/pathsInputs.txt", "r").read().split("\n")
 
 X=[]
 Y=[]
 
 for idx_path,path in enumerate(directory):
     print(path)    
-    for path_img in ls(path)[:10]:
+    for path_img in ls(path):
         img  = cv2.imread(path_img)
         resp = preprocessingIMG(img)
         X.append(resp)

@@ -1,38 +1,58 @@
 from libs.libs import *
 from libs.functions import *
+import csv
+
+def ferror(y,a):
+   e=y.transpose()-a
+   e2=np.power(e,2)
+   de=-2*e
+   return [e2,de]
 
 X = np.matrix(np.load("X.npy"))
 Y = np.matrix(np.load("Y.npy"))
 
-#print(X.shape)
-#print(Y)
+pathSave= open("in_out_paths/pathSave.txt", "r").read().split("\n")[0]
+params=[]
+with open('in_out_paths/config.csv', mode='r') as filee:
+   text = csv.reader(filee, delimiter=',')
+   for row in text:
+      params.append(row)
 
-rows = X.shape[0]
+capas = [int(i) for i in params[0]]
+capas.insert(0,X.shape[1])
+capas.append(Y.shape[1])
+
+functionesActivacion=params[1]
+alpha=float(params[2][0])
+
 r = RedNeuronal(
-   [X.shape[1],100,50,Y.shape[1]],
-   [sigmoid,sigmoid,sigmoid],
-   0.01
+   X,
+   capas,
+   functionesActivacion
 )
+
+r.set_Y(Y)
+r.set_ferror(ferror)
+r.set_alpha(alpha)
 
 r.reset()
 r.randomModel(-1,1)
-#r.loadModel("checkpoints")
+#r.loadModel(pathSave)
+
 emedio=[]
 eI=1
 epocas=0
-error = 10**(-2)
+error = 10**(-4)
+
 while(eI>error):
-   suma=0
-   for ind,x in enumerate(X):
-      r.frontPropagation(x)
-      e = r.error(Y[ind])
-      r.backPropagation()
-      r.update()
-      suma = e.transpose()*e + suma
-   emedio.append((suma/rows)[0,0]) 
-   eI=emedio[epocas]
+   a=r.frontPropagation()
+   e = r.error()
+   r.backPropagation()
+   r.update()
+   eI=np.mean(e)
    epocas=epocas+1
-   if(epocas%20==0):
-      r.saveModel("checkpoints")
    print(epocas,": ",eI)
 
+   if(epocas%20==0):
+      r.saveModel(pathSave)
+r.saveModel(pathSave)

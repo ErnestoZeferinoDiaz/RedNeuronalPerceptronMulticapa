@@ -1,114 +1,93 @@
-import numpy as np
+from libs.actFunctions import *
 import os
-
-def lineal(x):
-    return [x,np.ones(x.shape)]
-
-def relu(x):
-    y = np.abs(x)
-    z = (y + x)/2
-    return [z,np.where(z>0,1,0)]
-
-def sigmoid(x):
-    #return [1.0/(1.0+np.exp(-x)),x-np.power(x,2)]
-    return [1.0/(1.0+np.exp(-x)),x-np.power(x,2)]
-
-def tanh(x):
-    ep=np.exp(x)
-    en=np.exp(-x)
-    return [(ep-en)/(ep+en),1-np.power(x,2)]
-
-def rectif(x):
-    return [np.log(1+np.exp(x)),1.0/(1.0+np.exp(-x))]
-
-def gauss(x):
-    a=2
-    b=2
-    c=2
-    f=a*np.exp(-np.power((x-b),2)/(2*c**2))
-    return [f,f*5]
-
-
-class RedNeuronal:
-    
-    def __init__(self,capas,functions,alpha):
+class RedNeuronal:    
+    def __init__(self,X,capas,functions):
         self.capas = capas
         self.noCapas = len(capas)
-        self.Ws = []
-        self.Bs = []
-        self.Zs = []
-        self.As = []
-        self.Ss = []
+        self.l = np.array(list(range(self.noCapas)))
+        self.X = X
+        self.W = []
+        self.B = []
+        self.Z = []
+        self.A = []
+        self.S = []
         self.fun= functions
         self.er = 0
-        self.alpha = alpha
+
+    def set_Y(self,Y):
+        self.Y = Y
+    
+    def set_ferror(self,ferror):
+        self.ferror= ferror
+
+    def set_alpha(self,alpha):
+        self.alpha= alpha
 
     def reset(self):
-        self.Ws = []
-        self.Bs = []
-        self.Zs = []
-        self.As = []
-        self.Ss = []  
-             
+        self.W = []
+        self.B = []
+        self.A = []
+        self.S = []              
 
-    def randomModel(self,minimo,maximo):    
-        for i in range(self.noCapas):
-            self.As.append(0)
-            if(i<self.noCapas-1):
-                self.Ws.append(minimo + np.random.rand(self.capas[i+1],self.capas[i]) * (maximo - minimo))
-                self.Bs.append(minimo + np.random.rand(self.capas[i+1],1) * (maximo - minimo))
-                self.Zs.append(0)
-                self.Ss.append(0)
+    def randomModel(self,minimo,maximo):  
+        nR = self.X.shape[0]  
+        for i in self.l[:-1]:
+            self.W.append(minimo + np.random.rand(self.capas[i+1],self.capas[i]) * (maximo - minimo))
+            self.B.append(minimo + np.random.rand(self.capas[i+1],1) * (maximo - minimo))
 
-    def frontPropagation(self,row):
-        self.As[0] = np.matrix(row).transpose()
-        j=0
-        while(j<self.noCapas-1):
-            self.Zs[j] = np.dot(self.Ws[j],self.As[j]) + self.Bs[j]
-            self.As[j+1] = self.fun[j](self.Zs[j])[0]                
-            j = j+1
-        
-        return self.As[j]
+    def frontPropagation(self):
+        self.A = []
+        self.A.append(self.X.transpose()) 
+        for i in self.l[:-1]:
+            z=np.dot(self.W[i],self.A[i]) + self.B[i]
+            f=mapa[self.fun[i]]
+            a=f(z)[0]
+            self.A.append(a)
+        return self.A[-1]
     
-    def error(self,row):
-        y = np.matrix(row).transpose()
-        self.e = y - self.As[-1]
-        return self.e
+    def error(self):
+        return self.ferror(self.Y,self.A[-1])[0]
 
     def backPropagation(self):
-        j=self.noCapas-2
-        while(j>=0):            
-            if(j==self.noCapas-2):
-                self.Ss[j] = -2*np.multiply(self.fun[j](self.As[j+1])[1],self.e)
+        self.S=[]
+        for i in np.flip(self.l[:-1]): 
+            f=mapa[self.fun[i]] 
+            tmp1 = f(self.A[i+1])[1]
+            if (i==self.noCapas-2):
+                tmp2 = self.ferror(self.Y,self.A[-1])[1]    
+                tmp3 = np.multiply(tmp1,tmp2)
+                self.S.insert(0,tmp3)
             else:
-                tmp1 = self.fun[j](self.As[j+1])[1]
-                self.Ss[j] = np.diagflat(tmp1)*self.Ws[j+1].transpose()*self.Ss[j+1]
-            j = j-1
+                tmp2 = self.S[0]
+                tmp3 = self.W[i+1]
+                tmp4 = np.dot(tmp3.transpose(),tmp2)
+                tmp5 = np.multiply(tmp1,tmp4)
+                self.S.insert(0,tmp5)
     
     def update(self):
-        j=0
-        while(j<self.noCapas-1):                
-            self.Ws[j] = self.Ws[j] - self.alpha*self.Ss[j]*self.As[j].transpose()
-            self.Bs[j] = self.Bs[j] - self.alpha*self.Ss[j]        
-            j = j+1
-    
+        
+        for i in self.l[:-1]:
+            Sm=np.mean(self.S[i],axis=1)
+            #Sm=self.S[i]
+            self.W[i] = self.W[i] - self.alpha*np.dot(self.S[i],self.A[i].transpose())
+            self.B[i] = self.B[i] - self.alpha*Sm
+
     def saveModel(self,path):
         if(not os.path.isdir(path)):
             os.mkdir(path)
         
         j=0
         while(j<self.noCapas-1):
-            np.save(path+"/W"+str(j),self.Ws[j])
-            np.save(path+"/B"+str(j),self.Bs[j])
+            np.save(path+"/W"+str(j),self.W[j])
+            np.save(path+"/B"+str(j),self.B[j])
             j = j+1
     
     def loadModel(self,path):
         self.reset()
         for i in range(self.noCapas):        
-            self.As.append(0)
+            self.A.append(0)
             if(i<self.noCapas-1):
-                self.Ws.append(np.matrix(np.load(path+"/W"+str(i)+".npy")))
-                self.Bs.append(np.matrix(np.load(path+"/B"+str(i)+".npy")))
-                self.Zs.append(0)
-                self.Ss.append(0)
+                self.W.append(np.matrix(np.load(path+"/W"+str(i)+".npy")))
+                self.B.append(np.matrix(np.load(path+"/B"+str(i)+".npy")))
+                self.S.append(0)
                 

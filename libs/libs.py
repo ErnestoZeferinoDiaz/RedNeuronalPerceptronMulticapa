@@ -1,11 +1,10 @@
 from libs.actFunctions import *
 import os
 class RedNeuronal:    
-    def __init__(self,X,capas,functions):
+    def __init__(self,capas,functions):
         self.capas = capas
         self.noCapas = len(capas)
         self.l = np.array(list(range(self.noCapas)))
-        self.X = X
         self.W = []
         self.B = []
         self.Z = []
@@ -16,6 +15,9 @@ class RedNeuronal:
 
     def set_Y(self,Y):
         self.Y = Y
+
+    def set_X(self,X):
+        self.X = X
     
     def set_ferror(self,ferror):
         self.ferror= ferror
@@ -30,7 +32,6 @@ class RedNeuronal:
         self.S = []              
 
     def randomModel(self,minimo,maximo):  
-        nR = self.X.shape[0]  
         for i in self.l[:-1]:
             self.W.append(minimo + np.random.rand(self.capas[i+1],self.capas[i]) * (maximo - minimo))
             self.B.append(minimo + np.random.rand(self.capas[i+1],1) * (maximo - minimo))

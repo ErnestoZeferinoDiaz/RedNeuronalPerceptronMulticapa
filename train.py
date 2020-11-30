@@ -26,12 +26,10 @@ functionesActivacion=params[1]
 alpha=float(params[2][0])
 
 r = RedNeuronal(
-   X,
    capas,
    functionesActivacion
 )
 
-r.set_Y(Y)
 r.set_ferror(ferror)
 r.set_alpha(alpha)
 
@@ -44,6 +42,8 @@ eI=1
 epocas=0
 error = 10**(-4)
 
+r.set_X(X)
+r.set_Y(Y)
 while(eI>error):
    a=r.frontPropagation()
    
@@ -54,7 +54,7 @@ while(eI>error):
    
    r.backPropagation()
    r.update()
-   
+
    epocas=epocas+1
    print(epocas,": ",eI)
 

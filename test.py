@@ -26,11 +26,11 @@ capas.append(len(directory))
 functionesActivacion=params[1]
 
 r = RedNeuronal(
-   X,
    capas,
    functionesActivacion
 )
 
+r.set_X(X)
 r.loadModel(pathSave)
 y=r.frontPropagation()
 m=y.max()

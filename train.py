@@ -46,10 +46,15 @@ error = 10**(-4)
 
 while(eI>error):
    a=r.frontPropagation()
+   
    e = r.error()
+   ns=np.sum(e,axis=0)
+   nm=np.mean(ns)
+   eI=nm
+   
    r.backPropagation()
    r.update()
-   eI=np.mean(e)
+   
    epocas=epocas+1
    print(epocas,": ",eI)
 

@@ -13,7 +13,7 @@ Y = np.matrix(np.load("Y.npy"))
 
 pathSave= open("in_out_paths/pathSave.txt", "r").read().split("\n")[0]
 params=[]
-with open('in_out_paths/config.csv', mode='r') as filee:
+with open('in_out_paths/config.txt', mode='r') as filee:
    text = csv.reader(filee, delimiter=',')
    for row in text:
       params.append(row)

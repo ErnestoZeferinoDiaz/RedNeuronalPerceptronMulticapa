@@ -6,10 +6,11 @@ directory = open("in_out_paths/pathsInputs.txt", "r").read().split("\n")
 
 #path = "../train/20.jpg"
 #img  = cv2.imread(path)
-url = "https://http2.mlstatic.com/D_NQ_NP_755149-MLM26805385609_022018-V.jpg"
+url = "https://i1.wp.com/www.sopitas.com/wp-content/uploads/2019/09/todos-detalles-elementos-nuevo-billete-200-pesos-destacada-1.png"
 img  = url_to_image(url)
 
 X = preprocessingIMG(img)
+X = X[0].getA1()
 X = np.matrix(X)
 Y = np.matrix(np.load("Y.npy"))
 

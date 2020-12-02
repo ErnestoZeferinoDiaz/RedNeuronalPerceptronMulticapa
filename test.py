@@ -9,8 +9,9 @@ directory = open("in_out_paths/pathsInputs.txt", "r").read().split("\n")
 url = "https://http2.mlstatic.com/D_NQ_NP_755149-MLM26805385609_022018-V.jpg"
 img  = url_to_image(url)
 
-X    = preprocessingIMG(img)
+X = preprocessingIMG(img)
 X = np.matrix(X)
+Y = np.matrix(np.load("Y.npy"))
 
 pathSave= open("in_out_paths/pathSave.txt", "r").read().split("\n")[0]
 params=[]
@@ -21,7 +22,7 @@ with open('in_out_paths/config.txt', mode='r') as filee:
 
 capas = [int(i) for i in params[0]]
 capas.insert(0,X.shape[1])
-capas.append(len(directory))
+capas.append(Y.shape[1])
 
 functionesActivacion=params[1]
 

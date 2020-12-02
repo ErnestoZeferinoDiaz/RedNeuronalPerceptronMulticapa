@@ -6,9 +6,16 @@ from os.path import isfile, join
 
 def preprocessingIMG(img):
     resized = get_square(img,300)
-    gray    = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)  
-    border  = cv2.Canny(gray,50,200)  
-    resp    = np.matrix(border)
+    resp1 = cv2.Canny(resized,50,200)  
+    resp2 = cv2.rotate(resp1, cv2.ROTATE_90_CLOCKWISE)
+    resp3 = cv2.rotate(resp2, cv2.ROTATE_90_CLOCKWISE)
+    resp4 = cv2.rotate(resp3, cv2.ROTATE_90_CLOCKWISE)
+    resp = [
+      np.matrix(resp1),
+      np.matrix(resp2),
+      np.matrix(resp3),
+      np.matrix(resp4)
+    ]
     return resp
 
 def get_square(image,square_size):
@@ -29,7 +36,7 @@ def get_square(image,square_size):
   y_pos=int((differ-height)/2)
   mask[y_pos:y_pos+height,x_pos:x_pos+width]=image[0:height,0:width]
   mask=cv2.resize(mask,(square_size,square_size),interpolation=cv2.INTER_AREA)
-
+  return mask
 
 def ls(ruta = '.'):
   return [ruta+"/"+arch for arch in os.listdir(ruta) if isfile(join(ruta, arch))]

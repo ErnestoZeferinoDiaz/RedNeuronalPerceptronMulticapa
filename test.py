@@ -1,6 +1,7 @@
 from libs.red import *
 from libs.functions import *
 import csv
+import matplotlib.pyplot as plt
 
 directory = open("in_out_paths/pathsInputs.txt", "r").read().split("\n")
 
@@ -40,3 +41,23 @@ i=np.where(y==m)
 
 print(y)
 print(directory[i[0][0]])
+
+#Definimos una lista con los billetes
+billetes = ['20', '50', '100', '200', '500', '1000']
+
+#La Lista de las predicciones
+prediccion = y.transpose().getA1()
+ 
+fig, ax = plt.subplots()
+
+#Colocamos una etiqueta en el eje Y
+ax.set_ylabel('Procentaje')
+
+#Colocamos una etiqueta en el eje X
+ax.set_title('Billete')
+
+#Creamos la grafica de barras utilizando 'billetes' como eje X y 'prediccion' como eje y.
+plt.bar(billetes, prediccion)
+
+#Finalmente mostramos la grafica con el metodo show()
+plt.show()

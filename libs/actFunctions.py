@@ -1,5 +1,9 @@
 import numpy as np
 
+# Aqui se encuentran las funciones de activacion
+# cada metodo retorna un arreglo.
+# este arreglo tiene la funcion de activacion y la derivada de la funcion
+
 def lineal(x):
   return [x,np.ones(x.shape)]
 
@@ -26,6 +30,7 @@ def gauss(x):
   f=a*np.exp(-np.power((x-b),2)/(2*c**2))
   return [f,f*5]
 
+# Diccionario que relaciona cada metodo con un string
 mapa={
   "lineal" :lineal,
   "relu"   :relu,

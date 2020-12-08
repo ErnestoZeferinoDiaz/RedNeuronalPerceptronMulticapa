@@ -4,6 +4,11 @@ import numpy as np
 # cada metodo retorna un arreglo.
 # este arreglo tiene la funcion de activacion y la derivada de la funcion
 
+def logisticGeneral(k,a,b,x):
+  f  = a + (k-a)/(1+np.exp(-b*x))
+  df = b*(x-a)*(1-( (x-a)/(k-a) ))
+  return [f,df]
+
 def lineal(x):
   return [x,np.ones(x.shape)]
 

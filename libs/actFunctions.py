@@ -5,8 +5,15 @@ import numpy as np
 # este arreglo tiene la funcion de activacion y la derivada de la funcion
 
 def logisticGeneral(k,a,b,x):
-  f  = a + (k-a)/(1+np.exp(-b*x))
-  df = b*(x-a)*(1-( (x-a)/(k-a) ))
+  f  = a + ((k-a)/(1+np.exp(-b*x)))
+
+  tmp1 = b*(x-a)
+  aux1 = (x-a)
+  aux2 = (1/(k-a))  
+  tmp2 = aux1*aux2
+  tmp3 = 1-tmp2
+  df = np.multiply(tmp1,tmp3)
+  
   return [f,df]
 
 def lineal(x):

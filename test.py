@@ -50,8 +50,8 @@ f2 = np.matrix([
    [xRange[-1],line(W[-1][1],B[-1][1],xRange[-1])]
 ])
 
-axs2D[0].plot(f1[:,0],f1[:,1], linestyle = '-', color="red", linewidth=3)
-axs2D[0].plot(f2[:,0],f2[:,1], linestyle = '-', color="red", linewidth=3)
+axs2D[0].plot(f1[:,0],f1[:,1], linestyle = '-', color="lime", linewidth=3)
+axs2D[0].plot(f2[:,0],f2[:,1], linestyle = '-', color="lime", linewidth=3)
 
 axs2D[0].set_xlim(xRange[0],xRange[-1])
 axs2D[0].set_ylim(yRange[0],yRange[-1])

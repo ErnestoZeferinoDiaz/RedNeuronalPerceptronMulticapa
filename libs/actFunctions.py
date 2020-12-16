@@ -12,8 +12,13 @@ def logisticGeneral(k,a,b,x):
   aux2 = (1/(k-a))  
   tmp2 = aux1*aux2
   tmp3 = 1-tmp2
-  df = np.multiply(tmp1,tmp3)
+  df   = np.multiply(tmp1,tmp3)
   
+  return [f,df]
+
+def scalon(x):
+  f=logisticGeneral(1,0,50,x)[0]
+  d=logisticGeneral(1,0,50,x)[1]
   return [f,df]
 
 def lineal(x):
@@ -44,6 +49,7 @@ def gauss(x):
 
 # Diccionario que relaciona cada metodo con un string
 mapa={
+  "scalon" :scalon,
   "lineal" :lineal,
   "relu"   :relu,
   "sigmoid":sigmoid,

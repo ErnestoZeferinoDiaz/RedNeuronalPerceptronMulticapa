@@ -17,8 +17,8 @@ def logisticGeneral(k,a,b,x):
   return [f,df]
 
 def scalon(x):
-  f =logisticGeneral(1,0,50,x)[0]
-  df=logisticGeneral(1,0,50,x)[1]
+  f =logisticGeneral(1,0,70,x)[0]
+  df=logisticGeneral(1,0,70,x)[1]
   return [f,df]
 
 def lineal(x):

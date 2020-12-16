@@ -114,4 +114,6 @@ class RedNeuronal:
                 self.W.append(np.matrix(np.load(path+"/W"+str(i)+".npy")))
                 self.B.append(np.matrix(np.load(path+"/B"+str(i)+".npy")))
                 self.S.append(0)
+        
+        return self.W,self.B
                 

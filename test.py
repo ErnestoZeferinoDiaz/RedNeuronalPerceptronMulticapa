@@ -3,6 +3,12 @@ from libs.functions import *
 from configPlane import *
 import csv
 
+def line(W,B,x):
+   i=W[0,0]/W[0,1] * x
+   j=B[0,0]/W[0,1]
+   return -i-j
+
+
 X = np.matrix(np.load("X.npy"))
 Y = np.matrix(np.load("Y.npy"))
 
@@ -26,12 +32,20 @@ r = RedNeuronal(
 
 
 r.set_X(X)
-r.loadModel(pathSave)
+W,B=r.loadModel(pathSave)
 y=r.frontPropagation()
+
 
 sep=1
 xRange=np.arange(-1,2 + sep,sep)
 yRange=np.arange(-1,2 + sep,sep)
+
+f1 = np.matrix([
+   [xRange[0],line(W[-1],B[-1],xRange[0])],
+   [xRange[-1],line(W[-1],B[-1],xRange[-1])]
+])
+
+axs2D[0].plot(f1[:,0],f1[:,1], linestyle = '-', color="red", linewidth=3)
 
 axs2D[0].set_xlim(xRange[0],xRange[-1])
 axs2D[0].set_ylim(yRange[0],yRange[-1])
@@ -59,8 +73,15 @@ r.set_X(Xt)
 r.loadModel(pathSave)
 y=r.frontPropagation().reshape(res,res)
 
-axs2D[0].pcolormesh(u,v,y)
+axs2D[0].contourf(u,v,y,alpha=0.5, linewidth=0)
 
 u,v = np.meshgrid(u,v)
-axs3D[0].plot_surface(u,v,y,cmap=cm.viridis)
+axs3D[0].plot_surface(u,v,y,cmap=cm.viridis, alpha=0.5, linewidth=0)
+
+zer=np.zeros((4,1))
+tmp = np.where((Y[:,0]==0))[0]
+axs3D[0].scatter(X[tmp,0],X[tmp,1],zer[tmp], linestyle = 'None', color="blue", marker="o", s=10)
+
+tmp = np.where((Y[:,0]==1))[0]
+axs3D[0].scatter(X[tmp,0],X[tmp,1],zer[tmp], linestyle = 'None', color="red", marker="o", s=10)
 plt.show()

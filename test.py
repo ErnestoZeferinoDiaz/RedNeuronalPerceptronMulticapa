@@ -70,9 +70,7 @@ axs2D[0].plot(X[tmp,0],X[tmp,1], linestyle = 'None', color="cyan",marker="o", ma
 tmp = np.where((Y[:,0]==1) & (Y[:,1]==1))[0]
 axs2D[0].plot(X[tmp,0],X[tmp,1], linestyle = 'None', color="cyan",marker="^", markersize=10)
 
-
-
-res=200
+res=100
 u = np.linspace(xRange[0],xRange[-1], res)
 v = np.linspace(yRange[0],yRange[-1], res)
 Xt=[]
@@ -85,25 +83,26 @@ r.set_X(Xt)
 r.loadModel(pathSave)
 y=r.frontPropagation()
 
-axs2D[0].contourf(u,v,y[0].reshape(res,res),cmap=cm.viridis,alpha=0.5, linewidth=0)
+axs2D[0].contourf(u,v,y[0].reshape(res,res),cmap=cm.cool,alpha=0.5, linewidth=0)
 axs2D[0].contourf(u,v,y[1].reshape(res,res),cmap=cm.bwr,    alpha=0.5, linewidth=0)
 
 u,v = np.meshgrid(u,v)
-axs3D[0].plot_surface(u,v,y[0].reshape(res,res),cmap=cm.viridis, alpha=0.5, linewidth=0)
+axs3D[0].plot_surface(u,v,y[0].reshape(res,res),cmap=cm.cool, alpha=0.5, linewidth=0)
 axs3D[0].plot_surface(u,v,y[1].reshape(res,res),cmap=cm.bwr    , alpha=0.5, linewidth=0)
 
-
 zer=np.zeros((8,1))
+one=np.ones((8,1))
+
 tmp = np.where((Y[:,0]==0) & (Y[:,1]==0))[0]
-axs3D[0].scatter(X[tmp,0],X[tmp,1], linestyle = 'None', color="red", marker="o", s=50)
+axs3D[0].scatter(X[tmp,0],X[tmp,1], zer[tmp],linestyle = 'None', color="red", marker="o", s=50)
 
 tmp = np.where((Y[:,0]==0) & (Y[:,1]==1))[0]
-axs3D[0].scatter(X[tmp,0],X[tmp,1], linestyle = 'None', color="red", marker="^", s=50)
+axs3D[0].scatter(X[tmp,0],X[tmp,1], zer[tmp],linestyle = 'None', color="red", marker="^", s=50)
 
 tmp = np.where((Y[:,0]==1) & (Y[:,1]==0))[0]
-axs3D[0].scatter(X[tmp,0],X[tmp,1], linestyle = 'None', color="cyan",marker="o", s=50)
+axs3D[0].scatter(X[tmp,0],X[tmp,1], zer[tmp],linestyle = 'None', color="cyan",marker="o", s=50)
 
 tmp = np.where((Y[:,0]==1) & (Y[:,1]==1))[0]
-axs3D[0].scatter(X[tmp,0],X[tmp,1], linestyle = 'None', color="cyan",marker="^", s=50)
+axs3D[0].scatter(X[tmp,0],X[tmp,1], zer[tmp],linestyle = 'None', color="cyan",marker="^", s=50)
 
 plt.show()

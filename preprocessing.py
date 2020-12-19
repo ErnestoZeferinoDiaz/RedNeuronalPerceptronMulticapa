@@ -1,22 +1,8 @@
 from libs.red import *
 from libs.functions import *
 
-X=[
-  [0,0],
-  [0,1],
-  [1,0],
-  [1,1]
-]
-Y=[
-  [0],
-  [1],
-  [1],
-  [0]
-]
-        
-#Convertimos en matrices 
-X = np.matrix(X)
-Y = np.matrix(Y)
+X=np.genfromtxt('X.csv', delimiter=',')
+Y=np.genfromtxt('Y.csv', delimiter=',')[:,np.newaxis]
 
 print()
 print(X.shape)

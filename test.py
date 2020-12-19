@@ -36,23 +36,10 @@ W,B=r.loadModel(pathSave)
 y=r.frontPropagation()
 
 
-sep=1
-xRange=np.arange(-1,2 + sep,sep)
-yRange=np.arange(-1,2 + sep,sep)
+sep=2
+xRange=np.arange(-15,15 + sep,sep)
+yRange=np.arange(-15,15 + sep,sep)
 zRange=np.arange(-1,2 + sep,sep)
-
-f1 = np.matrix([
-   [xRange[0], line(W[-2][0,:],B[-2][0,:],xRange[ 0])],
-   [xRange[-1],line(W[-2][0,:],B[-2][0,:],xRange[-1])]
-])
-
-f2 = np.matrix([
-   [xRange[0], line(W[-2][1,:],B[-2][1,:],xRange[ 0])],
-   [xRange[-1],line(W[-2][1,:],B[-2][1,:],xRange[-1])]
-])
-
-axs2D[0].plot(f1[:,0],f1[:,1], linestyle = '-', color="lime", linewidth=3)
-axs2D[0].plot(f2[:,0],f2[:,1], linestyle = '-', color="lime", linewidth=3)
 
 axs2D[0].set_xlim(xRange[0],xRange[-1])
 axs2D[0].set_ylim(yRange[0],yRange[-1])
@@ -67,10 +54,10 @@ axs3D[0].set_yticks(yRange)
 axs3D[0].set_zticks(zRange)
 
 tmp = np.where((Y[:,0]==0))[0]
-axs2D[0].plot(X[tmp,0],X[tmp,1], linestyle = 'None', color="blue", marker="o", markersize=10)
+axs2D[0].plot(X[tmp,0],X[tmp,1], linestyle = 'None', color="blue", marker="o", markersize=3)
 
 tmp = np.where((Y[:,0]==1))[0]
-axs2D[0].plot(X[tmp,0],X[tmp,1], linestyle = 'None', color="red",  marker="o", markersize=10)
+axs2D[0].plot(X[tmp,0],X[tmp,1], linestyle = 'None', color="red",  marker="o", markersize=3)
 
 res=100
 u = np.linspace(xRange[0],xRange[-1], res)
@@ -90,10 +77,10 @@ axs2D[0].contourf(u,v,y,alpha=0.5, linewidth=0)
 u,v = np.meshgrid(u,v)
 axs3D[0].plot_surface(u,v,y,cmap=cm.viridis, alpha=0.5, linewidth=0)
 
-zer=np.zeros((4,1))
+zer=np.zeros((500,1))
 tmp = np.where((Y[:,0]==0))[0]
-axs3D[0].scatter(X[tmp,0],X[tmp,1],zer[tmp], linestyle = 'None', color="blue", marker="o", s=50)
+axs3D[0].scatter(X[tmp,0],X[tmp,1],zer[tmp], linestyle = 'None', color="blue", marker="o", s=7)
 
 tmp = np.where((Y[:,0]==1))[0]
-axs3D[0].scatter(X[tmp,0],X[tmp,1],zer[tmp], linestyle = 'None', color="red", marker="o", s=50)
+axs3D[0].scatter(X[tmp,0],X[tmp,1],zer[tmp], linestyle = 'None', color="red", marker="o", s=7)
 plt.show()

@@ -1,63 +1,64 @@
 from libs.red import *
-from libs.functions import *
+from libs.normalizar import *
 import csv
-import matplotlib.pyplot as plt
 
-directory = open("in_out_paths/pathsInputs.txt", "r").read().split("\n")
+pathModel   = 'model'
+pathConfig  = 'config/config.txt'
+pathInRows  = 'data/support/rows'
+pathInXmin  = 'data/support/Xmin'
+pathInXmax  = 'data/support/Xmax'
+pathInDataX = 'data/normalized/X'
+pathInDataY = 'data/normalized/Y'
 
-#path = "../train/20.jpg"
-#img  = cv2.imread(path)
-url = "https://i1.wp.com/www.sopitas.com/wp-content/uploads/2019/09/todos-detalles-elementos-nuevo-billete-200-pesos-destacada-1.png"
-img  = url_to_image(url)
+# leemos datos de soporte para la normalizacion de nuestra entrada de datos
+rows=np.matrix(np.load(pathInRows+".npy"))
+Xmin=np.matrix(np.load(pathInXmin+".npy"))
+Xmax=np.matrix(np.load(pathInXmax+".npy"))
 
-X = preprocessingIMG(img)
-X = X[0].getA1()
-X = np.matrix(X)
-Y = np.matrix(np.load("Y.npy"))
-
-pathSave= open("in_out_paths/pathSave.txt", "r").read().split("\n")[0]
+#Leemos los parametros de nuestra red neuronal
+pathSave= pathModel
 params=[]
-with open('in_out_paths/config.txt', mode='r') as filee:
+with open(pathConfig, mode='r') as filee:
    text = csv.reader(filee, delimiter=',')
    for row in text:
       params.append(row)
+Xs = np.matrix(np.load(pathInDataX+".npy")).shape[1]
+Ys = np.matrix(np.load(pathInDataY+".npy")).shape[1]
 
+#Casteamos los parametros en arreglos
 capas = [int(i) for i in params[0]]
-capas.insert(0,X.shape[1])
-capas.append(Y.shape[1])
+capas.insert(0,Xs)
+capas.append(Ys)
+functionsActivation=params[1]
+alpha=float(params[2][0])
 
-functionesActivacion=params[1]
-
+# Iniciamos la red neuronal
 r = RedNeuronal(
    capas,
-   functionesActivacion
+   functionsActivation
 )
 
-r.set_X(X)
+# cargamos el modelo entrenado
 r.loadModel(pathSave)
-y=r.frontPropagation()
-m=y.max()
-i=np.where(y==m)
 
-print(y)
-print(directory[i[0][0]])
+# Recibimos la entrada de datos
+data = [[711.00,668.00,687.00,664.00,523.00,0]]
 
-#Definimos una lista con los billetes
-billetes = ['20', '50', '100', '200', '500', '1000']
+# Normalizamos nuestra entrada
+dataIn = np.matrix(data,dtype="float")
+X = normalize(dataIn,1,1,Xmin,Xmax)[0]
 
-#La Lista de las predicciones
-prediccion = y.transpose().getA1()
- 
-fig, ax = plt.subplots()
+# Le pasamos la entrada ya normalizada
+r.set_X(X)
 
-#Colocamos una etiqueta en el eje Y
-ax.set_ylabel('Procentaje')
+# Propagamos la entrada hacia adelante para obtener la salida
+Y=r.frontPropagation()
 
-#Colocamos una etiqueta en el eje X
-ax.set_title('Billete')
+# Aplicamos funcion softMax a la salida de la neurona para exponenciar los resultados
+sumExp=np.sum(np.exp(Y))
+softMax=np.exp(Y)/sumExp
 
-#Creamos la grafica de barras utilizando 'billetes' como eje X y 'prediccion' como eje y.
-plt.bar(billetes, prediccion)
+# Obtenemos el indice de la letra, calculando el valor maximo de nuestra salida
+indexChar = np.argmax(softMax)
 
-#Finalmente mostramos la grafica con el metodo show()
-plt.show()
+print(indexChar)

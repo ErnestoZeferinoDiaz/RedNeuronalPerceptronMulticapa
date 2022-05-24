@@ -51,9 +51,9 @@ r.reset()
 
 
 # Inicialozamos nuestros parametros de forma aleatoria
-r.randomModel(-1,1)
+#r.randomModel(-1,1)
 # O podemos leer un modelo ya entrenado
-#r.loadModel(pathSave)
+r.loadModel(pathSave)
 
 emedio=[]
 eI=1

@@ -1,6 +1,11 @@
 from libs.red import *
-from libs.functions import *
 import csv
+
+# Leemos las entradas ya preprocesadas ejecutando normalizar.py
+pathInDataX = 'data/normalized/X'
+pathInDataY = 'data/normalized/Y'
+pathModel   = 'model'
+pathConfig  = 'config/config.txt'
 
 # declaramos una funcion de error donde retorne esa funcion y su derivada en un arreglo
 def ferror(y,a):
@@ -10,15 +15,15 @@ def ferror(y,a):
    return [e2,de]
 
 # Leemos los datos preprocesados
-X = np.matrix(np.load("X.npy"))
-Y = np.matrix(np.load("Y.npy"))
+X = np.matrix(np.load(pathInDataX+".npy"))
+Y = np.matrix(np.load(pathInDataY+".npy"))
 
 # Leemos la ruta en donde se guardara el modelo de la red neuronal
-pathSave= open("in_out_paths/pathSave.txt", "r").read().split("\n")[0]
+pathSave= pathModel
 
 #Leemos los parametros de nuestra red neuronal
 params=[]
-with open('in_out_paths/config.txt', mode='r') as filee:
+with open(pathConfig, mode='r') as filee:
    text = csv.reader(filee, delimiter=',')
    for row in text:
       params.append(row)
@@ -27,13 +32,13 @@ with open('in_out_paths/config.txt', mode='r') as filee:
 capas = [int(i) for i in params[0]]
 capas.insert(0,X.shape[1])
 capas.append(Y.shape[1])
-functionesActivacion=params[1]
+functionsActivation=params[1]
 alpha=float(params[2][0])
 
 # inicializamos red neuronal con los parametros necesarios
 r = RedNeuronal(
    capas,
-   functionesActivacion
+   functionsActivation
 )
 
 # le pasamos la funcion de error y el alpha
@@ -43,12 +48,12 @@ r.set_alpha(alpha)
 # reseteamos todo lo que pudiera tener la red
 r.reset()
 
+
+
 # Inicialozamos nuestros parametros de forma aleatoria
 r.randomModel(-1,1)
-
 # O podemos leer un modelo ya entrenado
 #r.loadModel(pathSave)
-
 
 emedio=[]
 eI=1
@@ -84,7 +89,9 @@ while(eI>error):
 
    # Cada 20 iteraciones guardaremos los datos del entrenamiento
    if(epocas%20==0):
+      print("Guardando...")
       r.saveModel(pathSave)
+      print("Listo")
 
 # Si la red llega a su minimo error, volveremos a guardar los datos
 r.saveModel(pathSave)

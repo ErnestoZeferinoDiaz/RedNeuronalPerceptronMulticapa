@@ -1,11 +1,13 @@
 import numpy as np
 
 
-pathInDataRaw         = 'data/input/raw/dataSet.csv'
-pathOutRows           = 'data/input/processed/rows'
-pathOutXmin           = 'data/input/processed/Xmin'
-pathOutXmax           = 'data/input/processed/Xmax'
-pathOutDataNormalized = 'data/input/processed/dataSetNorm'
+pathInDataRaw         = 'data/raw/dataSet.csv'
+pathOutRows           = 'data/support/rows'
+pathOutXmin           = 'data/support/Xmin'
+pathOutXmax           = 'data/support/Xmax'
+pathOutDataNormalized = 'data/normalized/dataSetNorm'
+pathOutDataX          = 'data/normalized/X'
+pathOutDataY          = 'data/normalized/Y'
 
 
 # leemos los datos en crudo
@@ -37,6 +39,12 @@ dataN[:,0:5]=Xn
 dataN[:,5:]=Yn
 
 #guardamos todos los datos ya que los necesitaremos para el test
+np.save(pathOutDataX,Xn)
+np.savetxt(pathOutDataX+".csv",Xn,delimiter=",",fmt="%g")
+
+np.save(pathOutDataY,Yn)
+np.savetxt(pathOutDataY+".csv",Yn,delimiter=",",fmt="%g")
+
 np.save(pathOutRows,np.array([rows]))
 np.savetxt(pathOutRows+".csv",np.array([rows]),delimiter=",",fmt="%g")
 

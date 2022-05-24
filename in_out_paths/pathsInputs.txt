@@ -1,6 +1,0 @@
-../train/20
-../train/50
-../train/100
-../train/200
-../train/500
-../train/1000

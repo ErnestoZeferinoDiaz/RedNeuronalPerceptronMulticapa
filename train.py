@@ -88,7 +88,7 @@ while(eI>error):
    print(epocas,": ",eI)
 
    # Cada 20 iteraciones guardaremos los datos del entrenamiento
-   if(epocas%20==0):
+   if(epocas%500==0):
       print("Guardando...")
       r.saveModel(pathSave)
       print("Listo")

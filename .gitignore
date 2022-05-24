@@ -1,5 +1,1 @@
 **/__pycache__
-**/*.npy
-**/checkpoints
-prueba.py
-data.csv

@@ -1,5 +1,7 @@
 from libs.red import *
 from libs.normalizar import *
+from libs.interface import *
+from tkinter import *
 import csv
 
 pathModel   = 'model'
@@ -33,32 +35,45 @@ functionsActivation=params[1]
 alpha=float(params[2][0])
 
 # Iniciamos la red neuronal
-r = RedNeuronal(
+red = RedNeuronal(
    capas,
    functionsActivation
 )
 
 # cargamos el modelo entrenado
-r.loadModel(pathSave)
+red.loadModel(pathSave)
 
-# Recibimos la entrada de datos
-data = [[711.00,668.00,687.00,664.00,523.00,0]]
+def funLoop(sel,r):
+   # Recibimos la entrada de datos
+   data = [[642.00,624.00,654.00,650.00,572.00]]
 
-# Normalizamos nuestra entrada
-dataIn = np.matrix(data,dtype="float")
-X = normalize(dataIn,1,1,Xmin,Xmax)[0]
+   # Normalizamos nuestra entrada
+   dataIn = np.matrix(data,dtype="float")
+   X = normalize(dataIn,1,1,Xmin,Xmax)[0]
 
-# Le pasamos la entrada ya normalizada
-r.set_X(X)
+   # Le pasamos la entrada ya normalizada
+   r.set_X(X)
 
-# Propagamos la entrada hacia adelante para obtener la salida
-Y=r.frontPropagation()
+   # Propagamos la entrada hacia adelante para obtener la salida
+   Y=r.frontPropagation()
 
-# Aplicamos funcion softMax a la salida de la neurona para exponenciar los resultados
-sumExp=np.sum(np.exp(Y))
-softMax=np.exp(Y)/sumExp
+   # Aplicamos funcion softMax a la salida de la neurona para exponenciar los resultados
+   sumExp=np.sum(np.exp(Y))
+   softMax=np.exp(Y)/sumExp
 
-# Obtenemos el indice de la letra, calculando el valor maximo de nuestra salida
-indexChar = np.argmax(softMax)
+   # Obtenemos el indice de la letra, calculando el valor maximo de nuestra salida
+   indexChar = np.argmax(softMax)
+   
+   # Actualizamos letra en la interface
+   sel.button1["text"]=sel.abc[indexChar]
+   print("funciona")
 
-print(indexChar)
+
+root = tkinter.Tk()
+root.configure(background='#c8c8c8')
+root.title("monitor")
+root.geometry("700x700")
+app = Application(root)
+app.set_Function_Loop(lambda se: funLoop(se,red))
+app.run()
+root.mainloop()

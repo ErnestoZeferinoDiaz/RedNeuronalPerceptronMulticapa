@@ -2,7 +2,7 @@ from libs.red import *
 from libs.normalizar import *
 from libs.interface import *
 from tkinter import *
-import csv
+import csv, serial, time
 
 pathModel   = 'model'
 pathConfig  = 'config/config.txt'
@@ -43,9 +43,19 @@ red = RedNeuronal(
 # cargamos el modelo entrenado
 red.loadModel(pathSave)
 
+arduino = serial.Serial("COM4",9600,timeout=1.0)
+arduino.setDTR(False)
+time.sleep(1)
+arduino.flushInput()
+arduino.setDTR(True)
+
 def funLoop(sel,r):
    # Recibimos la entrada de datos
-   data = [[642.00,624.00,654.00,650.00,572.00]]
+   rawString = arduino.readline()
+   cad=rawString.decode()[:-2]
+   listCad=cad.split(",")
+   data=list(map(float, listCad))[:-1]
+   #data = [[642.00,624.00,654.00,650.00,572.00]]
 
    # Normalizamos nuestra entrada
    dataIn = np.matrix(data,dtype="float")

@@ -37,6 +37,6 @@ void loop() {
   tmp.concat(",");
   tmp.concat(r4);
   tmp.concat(",");
-  tmp.concat(26);
+  tmp.concat(0);
   Serial.println(tmp);
 }

@@ -1,0 +1,27 @@
+{
+  "arduino" : {
+    "port" : "COM4"
+  },
+  "sample":{
+    "numberSamplesForEachLetter" : 30,
+    "letterToBeSampled" : 25,
+    "samplingTimeInSeconds" : 0.2,
+    "pathSaveDataRaw": "data/raw/dataSet3.csv"
+  },
+  "pathData":{    
+    "normalizedX" : "data/normalized/X",
+    "normalizedY" : "data/normalized/Y",
+    "rows"        : "data/support/rows",
+    "xmin"        : "data/support/Xmin",
+    "xmax"        : "data/support/Xmax"    
+  },
+  "perceptron":{
+    "layers":[20],
+    "activationFunctions":["sigmoid","sigmoid"],
+    "alpha":0.001,
+    "errorTrain":0.0001,
+    "pathModel" : "model",
+    "frequencyEpochsSaveModel" : 500,
+    "loadingModelTraining" : false
+  }
+}

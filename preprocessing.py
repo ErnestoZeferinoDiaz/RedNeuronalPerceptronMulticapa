@@ -1,11 +1,15 @@
 from libs.normalizar import *
+import json
 
-pathInDataRaw         = 'data/raw/dataSet.csv'
-pathOutDataX          = 'data/normalized/X'
-pathOutDataY          = 'data/normalized/Y'
-pathOutRows           = 'data/support/rows'
-pathOutXmin           = 'data/support/Xmin'
-pathOutXmax           = 'data/support/Xmax'
+
+config = json.load(open('config.json'))
+
+pathInDataRaw = config["sample"]["pathSaveDataRaw"]
+pathOutDataX  = config["pathData"]["normalizedX"]
+pathOutDataY  = config["pathData"]["normalizedY"]
+pathOutRows   = config["pathData"]["rows"]
+pathOutXmin   = config["pathData"]["xmin"]
+pathOutXmax   = config["pathData"]["xmax"]
 
 
 # leemos los datos en crudo

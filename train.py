@@ -1,11 +1,13 @@
 from libs.red import *
-import csv
+import csv, json
+
+config = json.load(open('config.json'))
 
 # Leemos las entradas ya preprocesadas ejecutando normalizar.py
-pathInDataX = 'data/normalized/X'
-pathInDataY = 'data/normalized/Y'
-pathModel   = 'model'
-pathConfig  = 'config/config.txt'
+pathInDataX = config["pathData"]["normalizedX"]
+pathInDataY = config["pathData"]["normalizedY"]
+pathModel   = config["perceptron"]["pathModel"]
+
 
 # declaramos una funcion de error donde retorne esa funcion y su derivada en un arreglo
 def ferror(y,a):
@@ -21,19 +23,12 @@ Y = np.matrix(np.load(pathInDataY+".npy"))
 # Leemos la ruta en donde se guardara el modelo de la red neuronal
 pathSave= pathModel
 
-#Leemos los parametros de nuestra red neuronal
-params=[]
-with open(pathConfig, mode='r') as filee:
-   text = csv.reader(filee, delimiter=',')
-   for row in text:
-      params.append(row)
-
 #Casteamos los parametros en arreglos
-capas = [int(i) for i in params[0]]
+capas = [int(i) for i in config["perceptron"]["layers"]]
 capas.insert(0,X.shape[1])
 capas.append(Y.shape[1])
-functionsActivation=params[1]
-alpha=float(params[2][0])
+functionsActivation=config["perceptron"]["activationFunctions"]
+alpha=float(config["perceptron"]["alpha"])
 
 # inicializamos red neuronal con los parametros necesarios
 r = RedNeuronal(
@@ -49,16 +44,18 @@ r.set_alpha(alpha)
 r.reset()
 
 
-
 # Inicialozamos nuestros parametros de forma aleatoria
-#r.randomModel(-1,1)
 # O podemos leer un modelo ya entrenado
-r.loadModel(pathSave)
+isLoadModel = bool(config["perceptron"]["loadingModelTraining"])
+if(isLoadModel):
+   r.loadModel(pathSave)
+else:
+   r.randomModel(-1,1)
 
 emedio=[]
 eI=1
 epocas=0
-error = 10**(-4)
+error = config["perceptron"]["errorTrain"]
 
 # Le pasamos a la red, las imagenes con sus respuestas
 r.set_X(X)
@@ -88,7 +85,7 @@ while(eI>error):
    print(epocas,": ",eI)
 
    # Cada 20 iteraciones guardaremos los datos del entrenamiento
-   if(epocas%500==0):
+   if(epocas%int(config["perceptron"]["frequencyEpochsSaveModel"])==0):
       print("Guardando...")
       r.saveModel(pathSave)
       print("Listo")

@@ -17,11 +17,11 @@
   },
   "perceptron":{
     "layers":[20],
-    "activationFunctions":["sigmoid","sigmoid"],
-    "alpha":0.001,
+    "activationFunctions":["sigmoid2","sigmoid2"],
+    "alpha":0.012357,
     "errorTrain":0.0001,
     "pathModel" : "model",
-    "frequencyEpochsSaveModel" : 2000,
-    "loadingModelTraining" : false
+    "frequencyEpochsSaveModel" : 10000,
+    "loadingModelTraining" : true
   }
 }

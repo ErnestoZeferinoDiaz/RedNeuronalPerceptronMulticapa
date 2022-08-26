@@ -50,7 +50,7 @@ isLoadModel = bool(config["perceptron"]["loadingModelTraining"])
 if(isLoadModel):
    r.loadModel(pathSave)
 else:
-   r.randomModel(0,1)
+   r.randomModel(-1,1)
 
 emedio=[]
 eI=1

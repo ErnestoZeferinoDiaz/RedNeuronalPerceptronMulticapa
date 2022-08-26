@@ -32,6 +32,9 @@ def relu(x):
 def sigmoid(x):
   return [1.0/(1.0+np.exp(-x)),x-np.power(x,2)]
 
+def sigmoid2(x):
+  return [1.0/(1.0+np.exp(-x)),np.multiply(x,(1-x))]
+
 def tanh(x):
   ep=np.exp(x)
   en=np.exp(-x)
@@ -53,6 +56,7 @@ mapa={
   "lineal" :lineal,
   "relu"   :relu,
   "sigmoid":sigmoid,
+  "sigmoid2":sigmoid2,
   "tanh"   :tanh,
   "rectif" :rectif,
   "gauss"  :gauss

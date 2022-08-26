@@ -16,12 +16,12 @@
     "xmax"        : "data/support/Xmax"    
   },
   "perceptron":{
-    "layers":[50],
-    "activationFunctions":["sigmoid","sigmoid"],
+    "layers":[30],
+    "activationFunctions":["sigmoid2","sigmoid2"],
     "alpha":0.0001,
     "errorTrain":0.0001,
     "pathModel" : "model",
     "frequencyEpochsSaveModel" : 2000,
-    "loadingModelTraining" : false
+    "loadingModelTraining" : true
   }
 }

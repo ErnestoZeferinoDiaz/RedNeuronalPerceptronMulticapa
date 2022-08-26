@@ -6,7 +6,7 @@
     "numberSamplesForEachLetter" : 30,
     "letterToBeSampled" : 25,
     "samplingTimeInSeconds" : 0.2,
-    "pathSaveDataRaw": "data/raw/dataSet2.csv"
+    "pathSaveDataRaw": "data/raw/dataSet4.csv"
   },
   "pathData":{    
     "normalizedX" : "data/normalized/X",
@@ -16,12 +16,12 @@
     "xmax"        : "data/support/Xmax"    
   },
   "perceptron":{
-    "layers":[20],
+    "layers":[50],
     "activationFunctions":["sigmoid","sigmoid"],
-    "alpha":0.08,
+    "alpha":0.0001,
     "errorTrain":0.0001,
     "pathModel" : "model",
-    "frequencyEpochsSaveModel" : 500,
-    "loadingModelTraining" : true
+    "frequencyEpochsSaveModel" : 2000,
+    "loadingModelTraining" : false
   }
 }
